@@ -1,0 +1,74 @@
+{
+  "name": "mqtt-rx",
+  "version": "0.0.2",
+  "description": "ReactiveX MQTT client library",
+  "readme": "README.md",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "node clean",
+    "test": "jasmine-ts ./tsconfig.json --config=config/jasmine.json",
+    "build": "node_modules/.bin/tsc",
+    "docs": "compodoc src -p ./tsconfig.json",
+    "serve:docs": "http-server documentation"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sirockin/mqtt-rx.git"
+  },
+  "keywords": [
+    "rx",
+    "rxjs",
+    "mqtt"
+  ],
+  "author": {
+    "name": "sirockin"
+  },
+  "contributors": [
+    {
+      "name": "lpeterse"
+    },
+    {
+      "name": "sclausen"
+    }
+  ],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "rxjs": "^6.2.1"
+  },
+  "dependencies": {
+    "mqtt": "^2.18.8"
+  },
+  "devDependencies": {
+    "@compodoc/compodoc": "^1.1.3",
+    "@types/fs-extra": "^5.0.3",
+    "@types/hammerjs": "2.0.33",
+    "@types/jasmine": "^3.3.5",
+    "@types/node": "10.3.2",
+    "@types/xtend": "^4.0.2",
+    "awesome-typescript-loader": "3.1.2",
+    "core-js": "^2.5.5",
+    "handlebars": "^4.0.11",
+    "http-server": "^0.10.0",
+    "istanbul-instrumenter-loader": "0.2.0",
+    "jasmine": "^3.3.1",
+    "jasmine-core": "3.1.0",
+    "jasmine-ts": "^0.3.0",
+    "reflect-metadata": "^0.1.12",
+    "rimraf": "^2.6.2",
+    "run-sequence": "^2.2.1",
+    "rxjs": "^6.2.1",
+    "source-map-loader": "0.2.0",
+    "systemjs": "0.20.10",
+    "systemjs-builder": "0.16.4",
+    "ts-helpers": "1.1.2",
+    "ts-node": "^7.0.1",
+    "tslint": "4.5.1",
+    "tslint-loader": "3.4.3",
+    "typescript": "^3.2.2",
+    "zone.js": "^0.8.26"
+  }
+}

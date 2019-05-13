@@ -1,0 +1,8 @@
+{
+    "spec_dir": "tests",
+    "spec_files": [
+        "mqtt.service.tcp.spec.ts"
+    ],
+    "stopSpecOnExpectationFailure": false,
+    "random": false
+}
