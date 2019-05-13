@@ -1,7 +1,7 @@
 {
-  "name": "mqtt-rx",
-  "version": "0.0.2",
-  "description": "ReactiveX MQTT client library",
+  "name": "rx-tsdb",
+  "version": "0.0.1",
+  "description": "ReactiveX Tools For TSDB",
   "readme": "README.md",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,23 +14,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sirockin/mqtt-rx.git"
+    "url": "https://github.com/zhangucan/RxTsdb.git"
   },
   "keywords": [
     "rx",
     "rxjs",
-    "mqtt"
+    "mqtt",
+    "tsdb"
   ],
   "author": {
-    "name": "sirockin"
+    "name": "zhangucna"
   },
   "contributors": [
-    {
-      "name": "lpeterse"
-    },
-    {
-      "name": "sclausen"
-    }
   ],
   "license": "MIT",
   "files": [
