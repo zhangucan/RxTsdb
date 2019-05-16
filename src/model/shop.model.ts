@@ -37,19 +37,19 @@ export const ShopModel = <ModelAttributes>{
     comment: '地标信息'
   },
   lat: {
-    type: sequelize.FLOAT,
+    type: sequelize.STRING(64),
     comment: '纬度'
   },
   lng: {
-    type: sequelize.FLOAT,
+    type: sequelize.STRING(64),
     comment: '径度'
   },
   wgs84lat: {
-    type: sequelize.FLOAT,
+    type: sequelize.STRING(64),
     comment: 'wgs84纬度'
   },
   wgs84lng: {
-    type: sequelize.FLOAT,
+    type: sequelize.STRING(64),
     comment: 'wgs84径度'
   },
   agentId: {
@@ -64,8 +64,8 @@ export class Shop {
   name: string;
   phone: string;
   openDate?: Date;
-  lat?: number;
-  lng?: number;
+  lat?: string;
+  lng?: string;
   wgs84lat?: number;
   wgs84lng?: number;
   slb?: string;

@@ -49,7 +49,6 @@ export class ShopServiceImpl implements ShopService {
       for (let item of result) {
         const shopId = Number(item[0]);
         const shop =  await ShopDaoImpl.getShopInfoById(this.xcRedis, shopId);
-        console.log(shop);
         data.push({
           shopId,
           name: shop.name,
@@ -57,7 +56,7 @@ export class ShopServiceImpl implements ShopService {
           address: shop.address,
           distance: Number(item[1]),
           lng:  Number(item[2][0]),
-          lat: Number(item[2][0])
+          lat: Number(item[2][1])
         });
       }
     }

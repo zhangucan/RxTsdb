@@ -4,6 +4,7 @@ import { UserDaoImpl } from './dao/impl/userDaoImpl';
 import { AgentDaoImpl } from './dao/impl/agentDaoImpl';
 import { ShopDaoImpl } from './dao/impl/shopDaoImpl';
 import { DeviceDaoImpl, CarDaoImpl, EbikeBingingRelDaoImpl } from './dao/impl/ebikeDaoImpl';
+import { RentalRecordServiceImpl } from './service/impl/rentalRecordServiceImpl';
 export{
   AgentServiceImpl,
   ShopServiceImpl,
@@ -12,5 +13,6 @@ export{
   ShopDaoImpl,
   DeviceDaoImpl,
   CarDaoImpl,
-  EbikeBingingRelDaoImpl
+  EbikeBingingRelDaoImpl,
+  RentalRecordServiceImpl
 }
