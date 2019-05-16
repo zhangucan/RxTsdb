@@ -14,7 +14,7 @@ enum ReserveState {
   CANCEL= 4 // 取消
 };
 export const ReservationRecordModel = <ModelAttributes>{
-  recordId: {
+  id: {
     type: sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
@@ -47,7 +47,7 @@ export const ReservationRecordModel = <ModelAttributes>{
 };
 
 export class ReservationRecord {
-  recordId: number;
+  id: number;
   userId: number;
   agentId?: number;
   shopId: number;

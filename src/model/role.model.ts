@@ -4,7 +4,7 @@
 import { ModelAttributes } from 'sequelize';
 import * as sequelize from 'sequelize';
 export const RoleModel = <ModelAttributes>{
-  roleId: {
+  id: {
     type: sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -15,6 +15,6 @@ export const RoleModel = <ModelAttributes>{
   }
 };
 export class Role {
-  roleId: number;
+  id?: number;
   name: string;
 }

@@ -2,7 +2,7 @@ import { AgentService } from '../agentService';
 import { AgentDaoImpl } from '../../dao/impl/agentDaoImpl';
 import {  Agent } from '../../model/agent.model';
 import { Sequelize } from 'sequelize';
-import { propDataValues } from '../../util';
+import { propId } from '../../util';
 export class AgentServiceImpl implements AgentService {
   agentDao: AgentDaoImpl;
   constructor(sequelize: Sequelize) {
@@ -11,6 +11,6 @@ export class AgentServiceImpl implements AgentService {
 
   async createAgent(agent: Agent): Promise<Agent> {
     const result = AgentDaoImpl.create(agent);
-    return propDataValues(result);
+    return propId(result);
   }
 }

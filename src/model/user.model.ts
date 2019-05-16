@@ -4,7 +4,7 @@
 import { ModelAttributes } from 'sequelize';
 import * as sequelize from 'sequelize';
 export const UserModel = <ModelAttributes>{
-  userId: {
+  id: {
     type: sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -107,24 +107,24 @@ export const UserModel = <ModelAttributes>{
 };
 
 export class User {
-  userId: number;
-  objectId: string;
-  phone: string;
-  deposited: boolean;
-  authState: number;
-  authDate: Date;
-  applyDate: Date;
-  authFailReason: string;
-  depositedMount: number;
-  depositedInfo: number;
-  userName: string;
-  personInfo: string;
-  balance: number;
-  recommendCode: string;
-  withdrawAccount: string;
-  cardExpiryDate: Date;
-  cardType: string;
-  cardImageUri: string;
-  backInfo: string;
-  userStateChangeDate: string;
+  id?: number;
+  objectId?: string;
+  phone?: string;
+  deposited?: boolean;
+  authState?: number;
+  authDate?: Date;
+  applyDate?: Date;
+  authFailReason?: string;
+  depositedMount?: number;
+  depositedInfo?: number;
+  userName?: string;
+  personInfo?: string;
+  balance?: number;
+  recommendCode?: string;
+  withdrawAccount?: string;
+  cardExpiryDate?: Date;
+  cardType?: string;
+  cardImageUri?: string;
+  backInfo?: string;
+  userStateChangeDate?: string;
 }

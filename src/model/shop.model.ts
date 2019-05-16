@@ -4,7 +4,7 @@
 import { ModelAttributes } from 'sequelize';
 import * as sequelize from 'sequelize';
 export const ShopModel = <ModelAttributes>{
-  shopId: {
+  id: {
     type: sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -34,7 +34,23 @@ export const ShopModel = <ModelAttributes>{
   },
   address: {
     type: sequelize.STRING,
-    comment: '地标信息，json存储{lat:xxx,lng:xxx}'
+    comment: '地标信息'
+  },
+  lat: {
+    type: sequelize.FLOAT,
+    comment: '纬度'
+  },
+  lng: {
+    type: sequelize.FLOAT,
+    comment: '径度'
+  },
+  wgs84lat: {
+    type: sequelize.FLOAT,
+    comment: 'wgs84纬度'
+  },
+  wgs84lng: {
+    type: sequelize.FLOAT,
+    comment: 'wgs84径度'
   },
   agentId: {
     type: sequelize.INTEGER.UNSIGNED,
@@ -43,12 +59,20 @@ export const ShopModel = <ModelAttributes>{
   }
 };
 export class Shop {
-  shopId?: number;
+  id?: number;
   isEnable?: boolean;
   name: string;
   phone: string;
   openDate?: Date;
+  lat?: number;
+  lng?: number;
+  wgs84lat?: number;
+  wgs84lng?: number;
   slb?: string;
   address?: string;
   agentId: number;
+}
+export class Coordinate {
+  lat: number;
+  lng: number;
 }

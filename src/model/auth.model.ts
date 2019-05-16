@@ -4,7 +4,7 @@
 import { ModelAttributes, Model } from 'sequelize';
 import * as sequelize from 'sequelize';
 export const model = <ModelAttributes>{
-  authId: {
+  id: {
     type: sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,

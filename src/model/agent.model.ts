@@ -4,7 +4,7 @@
 import { ModelAttributes } from 'sequelize';
 import * as sequelize from 'sequelize';
 export const AgentModel = <ModelAttributes>{
-  agentId: {
+  id: {
     type: sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,

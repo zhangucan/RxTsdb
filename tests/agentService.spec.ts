@@ -42,10 +42,10 @@ describe('data processing', () => {
   it('#agentService', async  () => {
     const service = new AgentServiceImpl(scmManyiSequelize);
     const result = await service.createAgent({
-      phone: '13109991111',
+      phone: '13109991112',
       account: '湖北省武汉市'
     });
-    console.log(result);
+    console.log('agentService', result);
   });
   it('#shopService', async  () => {
     const service = new ShopServiceImpl(scmManyiSequelize);
@@ -54,34 +54,8 @@ describe('data processing', () => {
       phone: '13122112211',
       agentId: 1
     });
-    console.log(result);
+    console.log('shopService', result);
   });
-  // it('#shopService2', async  () => {
-  //   ShopDaoImpl.init({
-  //     id: {
-  //       type: DataTypes.INTEGER.UNSIGNED,
-  //       autoIncrement: true,
-  //       primaryKey: true,
-  //     },
-  //     name: {
-  //       type: new DataTypes.STRING(128),
-  //       allowNull: false,
-  //     },
-  //     preferredName: {
-  //       type: new DataTypes.STRING(128),
-  //       allowNull: true
-  //     }
-  //   }, {
-  //     modelName: 'xc_led_shop2',
-  //     sequelize: scmManyiSequelize
-  //   });
-  //   await ShopDaoImpl.sync();
-  //   const result = await ShopDaoImpl.create({
-  //     name: 'Johnny2',
-  //     preferredName: 'John',
-  //   });
-  //   console.log(result);
-  // });
 });
 
 
