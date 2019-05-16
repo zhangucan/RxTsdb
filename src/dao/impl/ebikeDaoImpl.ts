@@ -2,6 +2,7 @@ import { Model, Sequelize } from 'sequelize';
 import { CarDao, DeviceDao, EbikeBingingRelDao } from '../ebikeDao';
 import { CarModel, EbikeBingingRelModel, DeviceModel } from '../../model/ebike.model';
 import { CREATE_RULE } from '../../config';
+import { Redis } from 'ioredis';
 
 export class CarDaoImpl extends Model implements CarDao {
   static async initModel(sequelize: Sequelize) {
@@ -35,5 +36,8 @@ export class EbikeBingingRelDaoImpl extends Model implements EbikeBingingRelDao 
       sequelize
     });
     this.sync();
+  }
+  static async getDeviceInfo(xcredis: Redis, imei: string) {
+    return await xcredis.hgetall(`xc_xiaoan_device_info_${imei}`);
   }
 }

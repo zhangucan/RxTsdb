@@ -6,6 +6,7 @@ import { propId } from '../../util';
 import * as moment from 'moment';
 import { ShopServiceImpl } from './shopServiceImpl';
 import { Redis } from 'ioredis';
+import { EbikeBingingRelDaoImpl } from '../../dao/impl/ebikeDaoImpl';
 export class RentalRecordServiceImpl implements RentalRecordService {
   xcRedis: Redis;
   shopServiceImpl: ShopServiceImpl;
@@ -31,7 +32,7 @@ export class RentalRecordServiceImpl implements RentalRecordService {
       eBikeApplyDate: moment(rentalRecord.bindDate).unix() * 1000,
       state: rentalRecord.state
     };
-    const eBikeInfo = {};
+    const eBikeInfo = await EbikeBingingRelDaoImpl.getDeviceInfo(this.xcRedis, rentalRecord.imei);
     return {
       shopInfo,
       userInfo,

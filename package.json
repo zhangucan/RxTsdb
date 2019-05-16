@@ -1,6 +1,6 @@
 {
   "name": "@xc/xcdputils",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "ReactiveX Tools For TSDB",
   "readme": "README.md",
   "main": "index.js",

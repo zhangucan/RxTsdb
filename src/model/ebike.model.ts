@@ -74,6 +74,10 @@ export const EbikeBingingRelModel = <ModelAttributes>{
   }
 };
 
+export class Device {
+
+}
+
 export class EbikeBingingRel {
   id?: number;
   carId?: string;
