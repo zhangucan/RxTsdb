@@ -27,13 +27,15 @@ export class RentalRecordServiceImpl implements RentalRecordService {
     });
     const shopInfo = await this.shopServiceImpl.getShopById(rentalRecord.shopId);
     const userInfo = { // TODO: 劝说方勇修改字段名
-      eBikeEndDate: moment(rentalRecord.bindDate).unix() * 1000,
+      eBikeEndDate: moment(rentalRecord.expiryDate).unix() * 1000,
       eBikeApplyDate: moment(rentalRecord.bindDate).unix() * 1000,
       state: rentalRecord.state
     };
+    const eBikeInfo = {};
     return {
       shopInfo,
-      userInfo
+      userInfo,
+      eBikeInfo
     };
   }
 }
