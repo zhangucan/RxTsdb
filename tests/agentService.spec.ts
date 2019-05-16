@@ -46,11 +46,12 @@ scmManyiSequelize.authenticate().then(() => {
 
 const sw = {
   agentService: false,
-  'shopService#createShop': true,
+  'shopService#createShop': false,
   'shopService#upsertShop': false,
   'shopService#upsertGeoShop': false,
-  'shopService#searchAround': true,
+  'shopService#searchAround': false,
   'shopService#getShopById': false,
+  'shopService#getAllShop': true,
 };
 describe('data processing', () => {
   it('#agentService', async  () => {
@@ -114,7 +115,7 @@ describe('data processing', () => {
       const result = await service.searchAround({
         lat: 30.500817,
         lng: 114.431281,
-      }, 10000, 2);
+      }, 10000);
       console.log('searchAround', result);
     } else {
       console.log(`shopService#searchAround is false, test is skip`);
@@ -123,10 +124,19 @@ describe('data processing', () => {
   it('#shopService', async  () => {
     if (sw['shopService#getShopById']) {
       const service = new ShopServiceImpl(scmManyiSequelize, xcRedis);
-      const result = await service.getShopById(1);
+      const result = await service.getShopById(16);
       console.log('getShopById', result);
     } else {
       console.log(`shopService#getShopById is false, test is skip`);
+    }
+  });
+  it('#shopService', async  () => {
+    if (sw['shopService#getAllShop']) {
+      const service = new ShopServiceImpl(scmManyiSequelize, xcRedis);
+      const result = await service.getAllShop();
+      console.log('getAllShop', result);
+    } else {
+      console.log(`shopService#getAllShop is false, test is skip`);
     }
   });
 });

@@ -11,6 +11,11 @@ export class ShopServiceImpl implements ShopService {
     ShopDaoImpl.initModel(sequelize);
     this.xcRedis = xcRedis;
   }
+
+  async getAllShop(agentId?: number): Promise<Shop[]> {
+    const result = await ShopDaoImpl.getAllShop(agentId);
+    return result.map(ietm => propDataValues(ietm));
+  }
   async createShop(shop: Shop): Promise<number> {
     const result = await ShopDaoImpl.create(shop);
     const shopId = propId(result);
@@ -29,7 +34,7 @@ export class ShopServiceImpl implements ShopService {
     const result = await ShopDaoImpl.upsert(shop);
     return result;
   }
-  async searchAround(coordinate: Coordinate, radius: number, agentId: number): Promise<{
+  async searchAround(coordinate: Coordinate, radius: number): Promise<{
     shopId: number,
     name: string,
     phone: string,
@@ -39,12 +44,12 @@ export class ShopServiceImpl implements ShopService {
     lat: number
   }[]> {
     const result = await ShopDaoImpl.searchAround(this.xcRedis, coordinate, radius);
-    console.log('#', result);
     const data = [];
     if (result && isArray(result)) {
       for (let item of result) {
         const shopId = Number(item[0]);
-        const shop =  await ShopDaoImpl.getShopInfoById(this.xcRedis, shopId, agentId);
+        const shop =  await ShopDaoImpl.getShopInfoById(this.xcRedis, shopId);
+        console.log(shop);
         data.push({
           shopId,
           name: shop.name,

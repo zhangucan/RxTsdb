@@ -1,10 +1,9 @@
 import { Model, Sequelize } from 'sequelize';
 import { CREATE_RULE } from '../../config';
 import { ShopDao } from '../shopDao';
-import { ShopModel, Coordinate } from '../../model/shop.model';
+import { ShopModel, Coordinate, Shop } from '../../model/shop.model';
 import { geoAdd, geoRadius } from '../../util/geoRedis';
 import { Redis } from 'ioredis';
-import { Shop } from '../../../lib/model/shop.model';
 
 export class ShopDaoImpl extends Model implements ShopDao  {
   static async searchAround(xcredis: Redis, coordinate: Coordinate, radius: number) {
@@ -12,14 +11,23 @@ export class ShopDaoImpl extends Model implements ShopDao  {
     return await geoRadius(xcredis, `geo_shop`, lng, lat, radius);
   }
   static async upsert2Redis(xcredis: Redis, shop: Shop) {
-    return await xcredis.hmset(`${shop.agentId}_shop_info_${shop.id}`, shop);
+    return await xcredis.hmset(`shop_info_${shop.id}`, shop);
   }
-  static async getShopInfoById(xcredis: Redis, shopId: number, agentId: number): Promise<Shop> {
-    return await xcredis.hgetall(`${agentId}_shop_info_${shopId}`);
+  static async getShopInfoById(xcredis: Redis, shopId: number): Promise<any> {
+    return await xcredis.hgetall(`shop_info_${shopId}`);
   }
   static async upsertGeo(xcredis: Redis, coordinate: Coordinate, name: string) {
     const {lat, lng} = coordinate;
     return await geoAdd(xcredis, `geo_shop`, lng, lat, name);
+  }
+  static async getAllShop(agentId: number): Promise<any[]> {
+    const query = agentId ? {
+      agentId
+    } : {};
+    const result = ShopDaoImpl.findAll({
+      where: query
+    });
+    return result;
   }
   static async initModel(sequelize: Sequelize) {
     this.init(ShopModel, {
