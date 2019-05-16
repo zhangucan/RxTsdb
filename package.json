@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "ReactiveX Tools For TSDB",
   "readme": "README.md",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "index.js",
   "scripts": {
     "clean": "node clean",
     "test": "jasmine-ts ./tsconfig.json --config=config/jasmine.json",
@@ -28,7 +27,7 @@
   "contributors": [],
   "license": "MIT",
   "files": [
-    "dist"
+    "lib"
   ],
   "peerDependencies": {
     "rxjs": "^6.2.1"

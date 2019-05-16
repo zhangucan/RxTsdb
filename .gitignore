@@ -6,7 +6,7 @@ src/**/*.d.ts
 src/**/*.metadata.json
 package-lock.json
 *.map
-*.js
+lib
 *.d.ts
 *.metadata.json
 .vscode
