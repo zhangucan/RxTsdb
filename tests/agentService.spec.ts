@@ -48,9 +48,9 @@ const sw = {
   agentService: false,
   'shopService#createShop': false,
   'shopService#upsertShop': false,
-  'shopService#upsertGeoShop': false,
-  'shopService#searchAround': false,
-  'shopService#getShopById': true,
+  'shopService#upsertGeoShop': true,
+  'shopService#searchAround': true,
+  'shopService#getShopById': false,
 };
 describe('data processing', () => {
   it('#agentService', async  () => {
@@ -97,7 +97,12 @@ describe('data processing', () => {
       const result = await service.upsertGeoShop({
         lat: 30.500817,
         lng: 114.431281,
-      }, 2);
+      }, {
+        id: 1,
+        phone: '13122112212',
+        address: '湖北省武汉市',
+        name: '光谷一号'
+      });
       console.log('upsertGeoShop', result);
     } else {
       console.log(`shopService#upsertGeoShop is false, test is skip`);

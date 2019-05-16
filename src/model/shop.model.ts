@@ -76,3 +76,9 @@ export class Coordinate {
   lat: number;
   lng: number;
 }
+export class GeoShop {
+  id: number;
+  address: string;
+  name: string;
+  phone: string;
+}

@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import { ShopService } from '../shopService';
-import { Shop, Coordinate } from '../../model/shop.model';
+import { Shop, Coordinate, GeoShop } from '../../model/shop.model';
 import { ShopDaoImpl } from '../../dao/impl/shopDaoImpl';
 import { propId, propDataValues } from '../../util';
 import { Redis } from 'ioredis';
@@ -19,8 +19,9 @@ export class ShopServiceImpl implements ShopService {
     const result = await ShopDaoImpl.bulkCreate(shops);
     return result;
   }
-  async upsertGeoShop(coordinate: Coordinate, name: any): Promise<any> {
-   return ShopDaoImpl.upsertGeo(this.xcRedis, coordinate, name);
+  async upsertGeoShop(coordinate: Coordinate, geoShop: GeoShop): Promise<any> {
+    const name = JSON.stringify(geoShop);
+    return ShopDaoImpl.upsertGeo(this.xcRedis, coordinate, name);
   }
   async upsertShop(shop: Shop): Promise<boolean> {
     const result = await ShopDaoImpl.upsert(shop);
@@ -28,18 +29,27 @@ export class ShopServiceImpl implements ShopService {
   }
   async searchAround(coordinate: Coordinate, radius: number): Promise<{
     shopId: number,
+    name: string,
+    phone: string,
+    address: string,
     distance: number,
     lng: number,
     lat: number
   }[]> {
     const result = await ShopDaoImpl.searchAround(this.xcRedis, coordinate, radius);
     if (result && isArray(result)) {
-      return result.map(item => ({
-        shopId: Number(item[0]),
-        distance: Number(item[1]),
-        lng:  Number(item[2][0]),
-        lat: Number(item[2][0])
-      }));
+      return result.map(item => {
+        const geoShop: GeoShop = JSON.parse(item[0]);
+        return {
+          shopId: Number(geoShop.id),
+          name: geoShop.name,
+          phone: geoShop.phone,
+          address: geoShop.address,
+          distance: Number(item[1]),
+          lng:  Number(item[2][0]),
+          lat: Number(item[2][0])
+        };
+      });
     }
     return [];
   }
