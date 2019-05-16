@@ -1,13 +1,14 @@
 {
   "name": "@xc/xcdputils",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "ReactiveX Tools For TSDB",
   "readme": "README.md",
   "main": "index.js",
   "scripts": {
-    "clean": "node clean",
+    "clean": "rm -rf lib",
     "test": "jasmine-ts ./tsconfig.json --config=config/jasmine.json",
-    "build": "node_modules/.bin/tsc",
+    "build": "npm run clean && node_modules/.bin/tsc",
+    "p": "xcnpm run build && xcnpm publish",
     "docs": "compodoc src -p ./tsconfig.json",
     "serve:docs": "http-server documentation"
   },

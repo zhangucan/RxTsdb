@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 import { ShopService } from '../shopService';
 import { Shop, Coordinate } from '../../model/shop.model';
 import { ShopDaoImpl } from '../../dao/impl/shopDaoImpl';
-import { propId } from '../../util';
+import { propId, propDataValues } from '../../util';
 import { Redis } from 'ioredis';
 import { isArray } from 'util';
 export class ShopServiceImpl implements ShopService {
@@ -22,7 +22,7 @@ export class ShopServiceImpl implements ShopService {
   async upsertGeoShop(coordinate: Coordinate, name: any): Promise<any> {
    return ShopDaoImpl.upsertGeo(this.xcRedis, coordinate, name);
   }
-  async upsertShop(shop: Shop) {
+  async upsertShop(shop: Shop): Promise<boolean> {
     const result = await ShopDaoImpl.upsert(shop);
     return result;
   }
@@ -43,8 +43,8 @@ export class ShopServiceImpl implements ShopService {
     }
     return [];
   }
-  async getShopById(id: number): Promise<any> {
+  async getShopById(id: number): Promise<Shop> {
     const result = await ShopDaoImpl.findByPk(id);
-    return result;
+    return propDataValues(result);
   }
 }

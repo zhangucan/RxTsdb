@@ -48,8 +48,9 @@ const sw = {
   agentService: false,
   'shopService#createShop': false,
   'shopService#upsertShop': false,
-  'shopService#upsertGeoShop': true,
-  'shopService#searchAround': true,
+  'shopService#upsertGeoShop': false,
+  'shopService#searchAround': false,
+  'shopService#getShopById': true,
 };
 describe('data processing', () => {
   it('#agentService', async  () => {
@@ -112,6 +113,15 @@ describe('data processing', () => {
       console.log('searchAround', result);
     } else {
       console.log(`shopService#searchAround is false, test is skip`);
+    }
+  });
+  it('#shopService', async  () => {
+    if (sw['shopService#getShopById']) {
+      const service = new ShopServiceImpl(scmManyiSequelize, xcRedis);
+      const result = await service.getShopById(1);
+      console.log('getShopById', result);
+    } else {
+      console.log(`shopService#getShopById is false, test is skip`);
     }
   });
 });
