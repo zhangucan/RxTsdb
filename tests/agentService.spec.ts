@@ -1,11 +1,17 @@
 import { Model, Sequelize, DataTypes } from 'sequelize';
 import { CREATE_RULE } from '../src/config';
+import * as Redis from 'ioredis';
 /*  This is the original set of tests from mqtt-rx, which uses ws on port 9001
 */
 import { AgentServiceImpl } from '../src/service/impl/agentServiceImpl';
 import { ShopServiceImpl } from '../src/service/impl/shopServiceImpl';
 import { ShopModel } from '../src/model/shop.model';
-
+const xcRedis = new Redis({
+  keyPrefix: 'xc_led_', // 前缀
+  host: 'pre.xiaoantech.com',
+  port: 6379,
+  db: 0,
+});
 class ShopDaoImpl extends Model {
 }
 const manyiConfig = {
@@ -38,23 +44,75 @@ scmManyiSequelize.authenticate().then(() => {
   console.log('---------scmManyiSequelize db connect fail', err);
 });
 
+const sw = {
+  agentService: false,
+  'shopService#createShop': false,
+  'shopService#upsertShop': false,
+  'shopService#upsertGeoShop': true,
+  'shopService#searchAround': true,
+};
 describe('data processing', () => {
   it('#agentService', async  () => {
-    const service = new AgentServiceImpl(scmManyiSequelize);
-    const result = await service.createAgent({
-      phone: '13109991112',
-      account: '湖北省武汉市'
-    });
-    console.log('agentService', result);
+    if (sw.agentService) {
+      const service = new AgentServiceImpl(scmManyiSequelize);
+      const result = await service.createAgent({
+        phone: '13109991112',
+        account: '湖北省武汉市'
+      });
+      console.log('agentService', result);
+    }else {
+      console.log(`sw.agentService is false, test is skip`);
+    }
   });
   it('#shopService', async  () => {
-    const service = new ShopServiceImpl(scmManyiSequelize);
-    const result = await service.createShop({
-      name: '123',
-      phone: '13122112211',
-      agentId: 1
-    });
-    console.log('shopService', result);
+    if (sw['shopService#createShop']) {
+      const service = new ShopServiceImpl(scmManyiSequelize, xcRedis);
+      const result = await service.createShop({
+        name: '123',
+        phone: '13122112221',
+        agentId: 1
+      });
+      console.log('shopService', result);
+    }else {
+      console.log(`shopService#createShop is false, test is skip`);
+    }
+  });
+  it('#shopService', async  () => {
+    if (sw['shopService#upsertShop']) {
+      const service = new ShopServiceImpl(scmManyiSequelize, xcRedis);
+      const result = await service.upsertShop({
+        name: '123',
+        phone: '13122112212',
+        agentId: 1
+      });
+      console.log('shopService', result);
+    } else {
+      console.log(`shopService#upsertShop is false, test is skip`);
+    }
+  });
+  it('#shopService', async  () => {
+    if (sw['shopService#upsertGeoShop']) {
+      const service = new ShopServiceImpl(scmManyiSequelize, xcRedis);
+      const result = await service.upsertGeoShop({
+        lat: 30.500817,
+        lng: 114.431281,
+      }, 2);
+      console.log('upsertGeoShop', result);
+    } else {
+      console.log(`shopService#upsertGeoShop is false, test is skip`);
+    }
+  });
+  it('#shopService', async  () => {
+    if (sw['shopService#searchAround']) {
+      const service = new ShopServiceImpl(scmManyiSequelize, xcRedis);
+      const result = await service.searchAround({
+        lat: 30.500817,
+        lng: 114.431281,
+      }, 10000);
+      console.log('searchAround', result);
+    } else {
+      console.log(`shopService#searchAround is false, test is skip`);
+    }
   });
 });
 

@@ -4,13 +4,14 @@ import { Shop, Coordinate } from '../../model/shop.model';
 import { ShopDaoImpl } from '../../dao/impl/shopDaoImpl';
 import { propId } from '../../util';
 import { Redis } from 'ioredis';
+import { isArray } from 'util';
 export class ShopServiceImpl implements ShopService {
   xcRedis: Redis;
   constructor(sequelize: Sequelize, xcRedis: Redis) {
     ShopDaoImpl.initModel(sequelize);
     this.xcRedis = xcRedis;
   }
-  async createShop(shop: Shop): Promise<Shop> {
+  async createShop(shop: Shop): Promise<number> {
     const result = await ShopDaoImpl.create(shop);
     return propId(result);
   }
@@ -18,16 +19,29 @@ export class ShopServiceImpl implements ShopService {
     const result = await ShopDaoImpl.bulkCreate(shops);
     return result;
   }
-  async upsertGeoShop(coordinate: Coordinate, name: string): Promise<any> {
+  async upsertGeoShop(coordinate: Coordinate, name: any): Promise<any> {
    return ShopDaoImpl.upsertGeo(this.xcRedis, coordinate, name);
   }
   async upsertShop(shop: Shop) {
     const result = await ShopDaoImpl.upsert(shop);
     return result;
   }
-  async searchAround(coordinate: Coordinate, radius: number): Promise<any> {
+  async searchAround(coordinate: Coordinate, radius: number): Promise<{
+    shopId: number,
+    distance: number,
+    lng: number,
+    lat: number
+  }[]> {
     const result = await ShopDaoImpl.searchAround(this.xcRedis, coordinate, radius);
-    return result;
+    if (result && isArray(result)) {
+      return result.map(item => ({
+        shopId: Number(item[0]),
+        distance: Number(item[1]),
+        lng:  Number(item[2][0]),
+        lat: Number(item[2][0])
+      }));
+    }
+    return [];
   }
   async getShopById(id: number): Promise<any> {
     const result = await ShopDaoImpl.findByPk(id);

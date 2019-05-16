@@ -8,11 +8,11 @@ import { Redis } from 'ioredis';
 export class ShopDaoImpl extends Model implements ShopDao  {
   static async searchAround(xcredis: Redis, coordinate: Coordinate, radius: number) {
     const {lat, lng} = coordinate;
-    await geoRadius(xcredis, 'xc_led_geo_shop', lat, lng, radius);
+    return await geoRadius(xcredis, `geo_shop`, lng, lat, radius);
   }
   static async upsertGeo(xcredis: Redis, coordinate: Coordinate, name: string) {
     const {lat, lng} = coordinate;
-    await geoAdd(xcredis, 'xc_led_geo_shop', lat, lng, name);
+    return await geoAdd(xcredis, `geo_shop`, lng, lat, name);
   }
   static async initModel(sequelize: Sequelize) {
     this.init(ShopModel, {
