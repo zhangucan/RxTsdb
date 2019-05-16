@@ -4,11 +4,18 @@ import { ShopDao } from '../shopDao';
 import { ShopModel, Coordinate } from '../../model/shop.model';
 import { geoAdd, geoRadius } from '../../util/geoRedis';
 import { Redis } from 'ioredis';
+import { Shop } from '../../../lib/model/shop.model';
 
 export class ShopDaoImpl extends Model implements ShopDao  {
   static async searchAround(xcredis: Redis, coordinate: Coordinate, radius: number) {
     const {lat, lng} = coordinate;
     return await geoRadius(xcredis, `geo_shop`, lng, lat, radius);
+  }
+  static async upsert2Redis(xcredis: Redis, shop: Shop) {
+    return await xcredis.hmset(`${shop.agentId}_shop_info_${shop.id}`, shop);
+  }
+  static async getShopInfoById(xcredis: Redis, shopId: number, agentId: number): Promise<Shop> {
+    return await xcredis.hgetall(`${agentId}_shop_info_${shopId}`);
   }
   static async upsertGeo(xcredis: Redis, coordinate: Coordinate, name: string) {
     const {lat, lng} = coordinate;

@@ -13,21 +13,23 @@ export class ShopServiceImpl implements ShopService {
   }
   async createShop(shop: Shop): Promise<number> {
     const result = await ShopDaoImpl.create(shop);
-    return propId(result);
+    const shopId = propId(result);
+    shop.id = shopId;
+    await ShopDaoImpl.upsert2Redis(this.xcRedis, shop);
+    return shopId;
   }
   async bulkcreateShop(shops: Shop[]): Promise<any> {
     const result = await ShopDaoImpl.bulkCreate(shops);
     return result;
   }
-  async upsertGeoShop(coordinate: Coordinate, geoShop: GeoShop): Promise<any> {
-    const name = JSON.stringify(geoShop);
-    return ShopDaoImpl.upsertGeo(this.xcRedis, coordinate, name);
+  async upsertGeoShop(coordinate: Coordinate, shopId: number | string): Promise<any> {
+    return ShopDaoImpl.upsertGeo(this.xcRedis, coordinate, `${shopId}`);
   }
   async upsertShop(shop: Shop): Promise<boolean> {
     const result = await ShopDaoImpl.upsert(shop);
     return result;
   }
-  async searchAround(coordinate: Coordinate, radius: number): Promise<{
+  async searchAround(coordinate: Coordinate, radius: number, agentId: number): Promise<{
     shopId: number,
     name: string,
     phone: string,
@@ -37,21 +39,24 @@ export class ShopServiceImpl implements ShopService {
     lat: number
   }[]> {
     const result = await ShopDaoImpl.searchAround(this.xcRedis, coordinate, radius);
+    console.log('#', result);
+    const data = [];
     if (result && isArray(result)) {
-      return result.map(item => {
-        const geoShop: GeoShop = JSON.parse(item[0]);
-        return {
-          shopId: Number(geoShop.id),
-          name: geoShop.name,
-          phone: geoShop.phone,
-          address: geoShop.address,
+      for (let item of result) {
+        const shopId = Number(item[0]);
+        const shop =  await ShopDaoImpl.getShopInfoById(this.xcRedis, shopId, agentId);
+        data.push({
+          shopId,
+          name: shop.name,
+          phone: shop.phone,
+          address: shop.address,
           distance: Number(item[1]),
           lng:  Number(item[2][0]),
           lat: Number(item[2][0])
-        };
-      });
+        });
+      }
     }
-    return [];
+    return data;
   }
   async getShopById(id: number): Promise<Shop> {
     const result = await ShopDaoImpl.findByPk(id);

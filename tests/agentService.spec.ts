@@ -46,9 +46,9 @@ scmManyiSequelize.authenticate().then(() => {
 
 const sw = {
   agentService: false,
-  'shopService#createShop': false,
+  'shopService#createShop': true,
   'shopService#upsertShop': false,
-  'shopService#upsertGeoShop': true,
+  'shopService#upsertGeoShop': false,
   'shopService#searchAround': true,
   'shopService#getShopById': false,
 };
@@ -58,7 +58,7 @@ describe('data processing', () => {
       const service = new AgentServiceImpl(scmManyiSequelize);
       const result = await service.createAgent({
         phone: '13109991112',
-        account: '湖北省武汉市'
+        account: '湖北省武汉市洪山区'
       });
       console.log('agentService', result);
     }else {
@@ -71,8 +71,13 @@ describe('data processing', () => {
       const result = await service.createShop({
         name: '123',
         phone: '13122112221',
-        agentId: 1
+        agentId: 2,
+        address: '湖北省武汉市洪山区'
       });
+      await service.upsertGeoShop({
+        lat: 30.500817,
+        lng: 114.431281,
+      }, result);
       console.log('shopService', result);
     }else {
       console.log(`shopService#createShop is false, test is skip`);
@@ -97,12 +102,7 @@ describe('data processing', () => {
       const result = await service.upsertGeoShop({
         lat: 30.500817,
         lng: 114.431281,
-      }, {
-        id: 1,
-        phone: '13122112212',
-        address: '湖北省武汉市',
-        name: '光谷一号'
-      });
+      }, 1);
       console.log('upsertGeoShop', result);
     } else {
       console.log(`shopService#upsertGeoShop is false, test is skip`);
@@ -114,7 +114,7 @@ describe('data processing', () => {
       const result = await service.searchAround({
         lat: 30.500817,
         lng: 114.431281,
-      }, 10000);
+      }, 10000, 2);
       console.log('searchAround', result);
     } else {
       console.log(`shopService#searchAround is false, test is skip`);
