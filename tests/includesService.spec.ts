@@ -71,24 +71,24 @@ class Address extends Model {
   public readonly updatedAt!: Date;
 }
 
-// Project.init({
-//   id: {
-//     type: DataTypes.INTEGER.UNSIGNED, // you can omit the `new` but this is discouraged
-//     autoIncrement: true,
-//     primaryKey: true,
-//   },
-//   ownerId: {
-//     type: DataTypes.INTEGER.UNSIGNED,
-//     allowNull: false,
-//   },
-//   name: {
-//     type: new DataTypes.STRING(128),
-//     allowNull: false,
-//   }
-// }, {
-//   sequelize,
-//   tableName: 'projects',
-// });
+Project.init({
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED, // you can omit the `new` but this is discouraged
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  ownerId: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    allowNull: false,
+  },
+  name: {
+    type: new DataTypes.STRING(128),
+    allowNull: false,
+  }
+}, {
+  sequelize,
+  tableName: 'projects',
+});
 
 User.init({
   id: {
@@ -109,28 +109,28 @@ User.init({
   sequelize: sequelize, // this bit is important
 });
 
-// Address.init({
-//   userId: {
-//     type: DataTypes.INTEGER.UNSIGNED,
-//   },
-//   address: {
-//     type: new DataTypes.STRING(128),
-//     allowNull: false,
-//   }
-// }, {
-//   tableName: 'users',
-//   sequelize: sequelize, // this bit is important
-// });
+Address.init({
+  userId: {
+    type: DataTypes.INTEGER.UNSIGNED,
+  },
+  address: {
+    type: new DataTypes.STRING(128),
+    allowNull: false,
+  }
+}, {
+  tableName: 'users',
+  sequelize: sequelize, // this bit is important
+});
 
-// // Here we associate which actually populates out pre-declared `association` static and other methods.
-// User.hasMany(Project, {
-//   sourceKey: 'id',
-//   foreignKey: 'ownerId',
-//   as: 'projects' // this determines the name in `associations`!
-// });
+// Here we associate which actually populates out pre-declared `association` static and other methods.
+User.hasMany(Project, {
+  sourceKey: 'id',
+  foreignKey: 'ownerId',
+  as: 'projects' // this determines the name in `associations`!
+});
 
-// Address.belongsTo(User, {targetKey: 'id'});
-// User.hasOne(Address, {sourceKey: 'id'});
+Address.belongsTo(User, {targetKey: 'id'});
+User.hasOne(Address, {sourceKey: 'id'});
 
 async function stuff() {
   // Please note that when using async/await you lose the `bluebird` promise context
@@ -141,16 +141,16 @@ async function stuff() {
   });
   console.log(newUser.id, newUser.name, newUser.preferredName);
 
-  // const project = await newUser.createProject({
-  //   name: 'first!',
-  // });
+  const project = await newUser.createProject({
+    name: 'first!',
+  });
 
-  // const ourUser = await User.findByPk(1, {
-  //   include: [User.associations.projects],
-  //   rejectOnEmpty: true, // Specifying true here removes `null` from the return type!
-  // });
-  // console.log(ourUser.projects![0].name); // Note the `!` null assertion since TS can't know if we included
-                                          // the model or not
+  const ourUser = await User.findByPk(1, {
+    include: [User.associations.projects],
+    rejectOnEmpty: true, // Specifying true here removes `null` from the return type!
+  });
+  console.log(ourUser.projects![0].name); // Note the `!` null assertion since TS can't know if we included
+                                          // the; model; or; not;
 }
 /* eslint-disable func-names */
 if (require.main === module) {

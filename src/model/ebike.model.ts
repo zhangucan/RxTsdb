@@ -48,7 +48,7 @@ export const EbikeBingingRelModel = <ModelAttributes>{
     autoIncrement: true,
     primaryKey: true,
   },
-  carNo: {
+  carId: {
     type: sequelize.STRING(9),
     allowNull: false
   },
@@ -56,7 +56,7 @@ export const EbikeBingingRelModel = <ModelAttributes>{
     type: sequelize.STRING(16),
     allowNull: false
   },
-  userId: { //
+  userId: {
     type: sequelize.INTEGER,
     allowNull: true
   },
@@ -68,5 +68,19 @@ export const EbikeBingingRelModel = <ModelAttributes>{
     type: sequelize.INTEGER,
     allowNull: true
   },
+  deviceId: {
+    type: sequelize.INTEGER,
+    allowNull: true
+  }
 };
+
+export class EbikeBingingRel {
+  id?: number;
+  carId?: string;
+  imei?: string;
+  userId?: number;
+  agentId?: number;
+  shopId?: number;
+  deviceId?: number;
+}
 
