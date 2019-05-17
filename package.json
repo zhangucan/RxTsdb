@@ -1,7 +1,7 @@
 {
   "name": "@xc/xcdputils",
-  "version": "0.0.18",
-  "description": "ReactiveX Tools For TSDB",
+  "version": "0.0.19",
+  "description": "Data Preprocessing Tools For Xcledserver",
   "readme": "README.md",
   "main": "index.js",
   "scripts": {
