@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 import { RentalRecordService } from '../rentalRecordService';
 import { RentalRecordDaoImpl } from '../../dao/impl/rentalRecordDaoImpl';
 import { RentalRecord } from '../../model/rentalRecord.model';
-import { propId } from '../../util';
+import { propId, getItineraryRest, getBatteryRest } from '../../util';
 import * as moment from 'moment';
 import { ShopServiceImpl } from './shopServiceImpl';
 import { Redis } from 'ioredis';
@@ -36,7 +36,11 @@ export class RentalRecordServiceImpl implements RentalRecordService {
     return {
       shopInfo,
       userInfo,
-      eBikeInfo
+      eBikeInfo: {
+        ...eBikeInfo,
+        restItinerary: getItineraryRest(eBikeInfo.voltage),
+        restBattery: getBatteryRest(eBikeInfo.voltage)
+      }
     };
   }
 }
